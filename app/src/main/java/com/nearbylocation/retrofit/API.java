@@ -1,5 +1,7 @@
 package com.nearbylocation.retrofit;
 
+import com.nearbylocation.repository.model.NearbyPlaces;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -16,6 +18,6 @@ public interface API {
     //https://hackernoon.com/yet-another-mvp-article-part-3-calling-apis-using-retrofit-23757f4eee05
 
     @GET
-    Call<String> fourSquareLocation(@Url String url);
+    Call<NearbyPlaces> fourSquareLocation(@Url String url);
 
 }

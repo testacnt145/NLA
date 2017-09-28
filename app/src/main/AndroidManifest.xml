@@ -24,7 +24,12 @@
         <activity
             android:name="com.nearbylocation.activity.FourSquareActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_main_activity">
+            android:label="@string/title_four_square_activity">
+        </activity>
+        <activity
+            android:name="com.nearbylocation.activity.GooglePlacesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_google_places_activity">
         </activity>
     </application>
 

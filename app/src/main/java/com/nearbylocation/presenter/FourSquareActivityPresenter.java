@@ -1,13 +1,15 @@
 package com.nearbylocation.presenter;
 
 import com.nearbylocation.contract.FourSquareActivityContract;
+import com.nearbylocation.repository.GeneralCallback;
 import com.nearbylocation.repository.Repository;
+import com.nearbylocation.repository.model.NearbyPlaces;
 import com.nearbylocation.util.LogUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FourSquareActivityPresenter implements FourSquareActivityContract.Presenter, Callback<String> {
+public class FourSquareActivityPresenter implements FourSquareActivityContract.Presenter {
 
     private FourSquareActivityContract.View view;
     private Repository repository;
@@ -19,22 +21,21 @@ public class FourSquareActivityPresenter implements FourSquareActivityContract.P
 
     @Override
     public void loadLocation() {
-        repository.getLocationFromFourSquare(this);
-    }
+        GeneralCallback<NearbyPlaces> a = new GeneralCallback<NearbyPlaces>() {
+            @Override
+            public void onResponse(Call<NearbyPlaces> call, Response<String> response) {
+                view.displayLocation(response.body());
+            }
 
-    //_______________
-    @Override
-    public void onResponse(Call<String> call, Response<String> response) {
-        view.displayLocation(response.body());
-    }
-
-    @Override
-    public void onFailure(Call<String> call, Throwable t) {
-        if(call.isCanceled())
-            LogUtil.e(getClass().getSimpleName(), "Call canceled");
-        else
-            view.displayInternetError();
-
+            @Override
+            public void onFailure(Call<NearbyPlaces> call, Throwable t) {
+                if(call.isCanceled())
+                    LogUtil.e(getClass().getSimpleName(), "Call canceled");
+                else
+                    view.displayInternetError();
+            }
+        };
+        repository.getLocationFromFourSquare(a);
     }
 
     //________________

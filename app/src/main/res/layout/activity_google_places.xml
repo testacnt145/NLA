@@ -3,14 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="temp"
-            type="com.nearbylocation.repository.model.NearbyPlaces" />
-
         <variable
             name="presenter"
-            type="com.nearbylocation.presenter.FourSquareActivityPresenter"/>
+            type="com.nearbylocation.presenter.GooglePlacesActivityPresenter"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -23,7 +18,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
-                android:id="@id/toolbar_four_square"
+                android:id="@id/toolbar_google_places"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -32,14 +27,14 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@id/recycler_view_four_square"
+            android:id="@id/recycler_view_google_places"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <ProgressBar
-            android:id="@id/progress_bar_four_square"
+            android:id="@id/progress_bar_google_places"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

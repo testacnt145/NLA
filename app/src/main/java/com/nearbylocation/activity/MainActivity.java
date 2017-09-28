@@ -43,6 +43,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     @Override
     public void startGooglePlacesActivity() {
-        Toast.makeText(this, "G", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, GooglePlacesActivity.class));
     }
 }
