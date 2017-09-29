@@ -1,6 +1,5 @@
 package com.nearbylocation.activity;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,15 +11,12 @@ import com.nearbylocation.App;
 import com.nearbylocation.R;
 import com.nearbylocation.adapters.MyAdapter;
 import com.nearbylocation.contract.FourSquareActivityContract;
-import com.nearbylocation.databinding.ActivityFourSquareBinding;
 import com.nearbylocation.presenter.FourSquareActivityPresenter;
 import com.nearbylocation.repository.Repository;
+import com.nearbylocation.repository.callbacks.GeneralCallback;
 import com.nearbylocation.repository.model.NearbyPlaces;
-import com.nearbylocation.util.NetworkUtil;
-
 import java.util.Arrays;
 import java.util.List;
-
 import javax.inject.Inject;
 
 public class FourSquareActivity extends AppCompatActivity implements FourSquareActivityContract.View {
@@ -65,7 +61,17 @@ public class FourSquareActivity extends AppCompatActivity implements FourSquareA
         presenter = new FourSquareActivityPresenter(fourSquareActivityView, repository);
         //ActivityFourSquareBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_four_square);
         //binding.setPresenter(presenter);
-        presenter.loadLocation();
+        presenter.loadLocation(new GeneralCallback<NearbyPlaces>() {
+            @Override
+            public void onSuccess(NearbyPlaces obj) {
+                displayLocation(obj.getName());
+            }
+
+            @Override
+            public void onError(String msg) {
+                Toast.makeText(FourSquareActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -82,12 +88,6 @@ public class FourSquareActivity extends AppCompatActivity implements FourSquareA
 
         Toast.makeText(this, "Successful Response", Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public void displayInternetError() {
-        NetworkUtil.internetNotAvailableToast();
-    }
-
 
     //______________________________________________________________________________________________
     @Override

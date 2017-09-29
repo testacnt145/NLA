@@ -22,4 +22,6 @@ public class Network {
     //https://github.com/Taishi-Y/Foursquare-API-client-sample-app-for-Android
     //https://github.com/Taishi-Y/Foursquare-API-client-sample-app-for-Android/blob/master/app/src/main/java/com/taishi/foursquareapiforandroid/Model/Explore/Venue.java
 
+
+    public static final String URL = serverUrl4Square(Location.LATITUDE, Location.LONGITUDE);
 }

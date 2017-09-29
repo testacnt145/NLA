@@ -1,76 +1,59 @@
 package com.nearbylocation.repository;
 
-import com.nearbylocation.constants.Location;
 import com.nearbylocation.constants.Network;
-import com.nearbylocation.presenter.FourSquareActivityPresenter;
-import com.nearbylocation.presenter.GooglePlacesActivityPresenter;
-import com.nearbylocation.repository.model.NearbyPlaces;
+import com.nearbylocation.repository.callbacks.GeneralCallback2;
 import com.nearbylocation.retrofit.API;
 import com.nearbylocation.retrofit.converter.StringConverterFactory;
 import com.nearbylocation.util.LogUtil;
+import com.nearbylocation.dagger.DaggerNetworkComponent;
+import com.nearbylocation.dagger.NetworkComponent;
+import com.nearbylocation.dagger.NetworkModule;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import javax.inject.Inject;
 
 public class NetworkRepository implements Repository {
 
-//    @Inject
-//    Retrofit retrofit;
-//    @Inject
-//    API api;
-//
-    private Call<NearbyPlaces> call;
+    @Inject
+    Retrofit retrofit;
+    @Inject
+    API api;
 
-//    NetworkRepository() {
-//        ((App) getApplication()).getAppComponent().inject(this);
-//    }
+    private Call<String> callGooglePlaces;
 
+    public NetworkRepository() {
 
-    @Override
-    public void getLocationFromFourSquare(GeneralCallback<NearbyPlaces> obj) {
-        String baseUrl = Network.baseUrl4Square;
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(StringConverterFactory.create())
-                .build();
-        API api = retrofit.create(API.class);
-        String url = Network.serverUrl4Square(Location.LATITUDE, Location.LONGITUDE);
-        call = api.fourSquareLocation(url);
-        call.enqueue(new Callback<NearbyPlaces>() {
-            @Override
-            public void onResponse(Call<NearbyPlaces> call, Response<NearbyPlaces> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<NearbyPlaces> call, Throwable t) {
-
-            }
-        }); //make an asynchronous request
-
-        /*String url = Network.serverUrl4Square(Location.LATITUDE, Location.LONGITUDE);
-        call = api.fourSquareLocation(url);
-        call.enqueue(presenter);*/
     }
 
     @Override
-    public void getLocationFromGooglePlaces(GooglePlacesActivityPresenter presenter) {
-//        String baseUrl = Network.baseUrl4Square;
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(baseUrl)
-//                .addConverterFactory(StringConverterFactory.create())
-//                .build();
-//        API api = retrofit.create(API.class);
-//        String url = Network.serverUrl4Square(Location.LATITUDE, Location.LONGITUDE);
-//        call = api.fourSquareLocation(url);
-//        call.enqueue(presenter); //make an asynchronous request
+    public void getLocationFromGooglePlaces(GeneralCallback2<String> callback) {
+        generateComponent(Network.baseUrl4Square, StringConverterFactory.create());
+        callGooglePlaces = api.googlePlacesLocation(Network.URL);
+        callGooglePlaces.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+               callback.onResponse(call, response);
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+               callback.onFailure(call, t);
+            }
+        });
     }
 
     @Override
     public void clear() {
         LogUtil.e(getClass().getSimpleName(), "clear");
-        call.cancel();
+        callGooglePlaces.cancel();
+    }
+
+    void generateComponent(String baseUrl, Converter.Factory converterFactory) {
+        NetworkComponent networkComponent = DaggerNetworkComponent.builder()
+                .networkModule(new NetworkModule(baseUrl, converterFactory))
+                .build();
+        networkComponent.inject(this);
     }
 }

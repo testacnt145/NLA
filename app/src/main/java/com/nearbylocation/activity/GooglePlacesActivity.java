@@ -49,7 +49,7 @@ public class GooglePlacesActivity extends AppCompatActivity implements GooglePla
     }
 
 
-    //______________________________________________________________________________________________
+    //______________________________________________________________________________________________ LIFECYLCE
     @Override
     protected void onDestroy() {
         super.onDestroy();

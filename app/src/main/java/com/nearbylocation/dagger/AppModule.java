@@ -6,7 +6,6 @@ import com.nearbylocation.repository.BooksRepository;
 import com.nearbylocation.repository.DatabaseBooksRepository;
 import com.nearbylocation.repository.NetworkRepository;
 import com.nearbylocation.repository.Repository;
-
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;

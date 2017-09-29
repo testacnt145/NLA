@@ -20,4 +20,7 @@ public interface API {
     @GET
     Call<NearbyPlaces> fourSquareLocation(@Url String url);
 
+    @GET
+    Call<String> googlePlacesLocation(@Url String url);
+
 }

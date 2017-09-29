@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 import com.nearbylocation.App;
 import com.nearbylocation.databinding.ActivityMainBinding;
 import com.nearbylocation.contract.MainActivityContract;
@@ -46,3 +45,39 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         startActivity(new Intent(this, GooglePlacesActivity.class));
     }
 }
+
+
+//    @Override
+//    public void fun(String a, String b, , String c, String d, final GeneralCallback<SocialMediaLoginResponse> callback) {
+//        apiName.apiFun(name,dob,gender,email,socialMediaType, social_media_id,mobile,deviceType,deviceToken,GlobalValues.PARTNER_ID).enqueue(new Callback<SocialMediaLoginResponse>() {
+//            @Override
+//            public void onResponse(Call<SocialMediaLoginResponse> call, Response<SocialMediaLoginResponse> response) {
+//                if (response.isSuccessful())
+//                    callback.onSuccess(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SocialMediaLoginResponse> call, Throwable t) {
+//                callback.onError(t.getMessage());
+//            }
+//        });
+//    }
+
+
+
+//    @Override
+//    public void name(String name, String dob, final GeneralCallback<NearbyPlaces> callback) {
+//        api.socialMediaLogin(name,dob)
+//           .enqueue(new Callback<SocialMediaLoginResponse>() {
+//                @Override
+//                public void onResponse(Call<SocialMediaLoginResponse> call, Response<SocialMediaLoginResponse> response) {
+//                    if (response.isSuccessful())
+//                        callback.onSuccess(response.body());
+//                }
+//
+//                @Override
+//                public void onFailure(Call<SocialMediaLoginResponse> call, Throwable t) {
+//                    callback.onError(t.getMessage());
+//                }
+//        });
+//    }
