@@ -4,6 +4,10 @@
 
     <data>
         <variable
+            name="venue"
+            type="com.nearbylocation.repository.model.foursquare.Venue" />
+
+        <variable
             name="presenter"
             type="com.nearbylocation.presenter.GooglePlacesActivityPresenter"/>
     </data>
@@ -23,7 +27,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
-
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView

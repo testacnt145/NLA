@@ -1,6 +1,10 @@
 package com.nearbylocation.dagger;
 
+import com.nearbylocation.constants.Network;
+import com.nearbylocation.repository.model.foursquare.FourSquareNearbyPlaces;
 import com.nearbylocation.retrofit.API;
+
+import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import javax.inject.Singleton;
@@ -31,6 +35,12 @@ public class NetworkModule {
                 .baseUrl(baseUrl)
                 .addConverterFactory(converterFactory)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    Call<FourSquareNearbyPlaces> provideCallGooglePlaces(API api) {
+        return api.googlePlacesLocation(Network.URL);
     }
 }
 

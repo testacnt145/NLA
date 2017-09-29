@@ -1,6 +1,7 @@
 package com.nearbylocation.retrofit;
 
 import com.nearbylocation.repository.model.NearbyPlaces;
+import com.nearbylocation.repository.model.foursquare.FourSquareNearbyPlaces;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -21,6 +22,6 @@ public interface API {
     Call<NearbyPlaces> fourSquareLocation(@Url String url);
 
     @GET
-    Call<String> googlePlacesLocation(@Url String url);
+    Call<FourSquareNearbyPlaces> googlePlacesLocation(@Url String url);
 
 }

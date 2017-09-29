@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     // TODO:
     //permission marshmallow for location
+    //FourSquareGooglePlaces used in NetworkRepository -> getLocationFromGooglePlaces()
 
     @Inject
     BooksRepository booksRepository;

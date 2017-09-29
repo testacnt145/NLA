@@ -1,18 +1,20 @@
 package com.nearbylocation.activity;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 import com.nearbylocation.App;
 import com.nearbylocation.R;
+import com.nearbylocation.adapters.GooglePlacesAdapter;
 import com.nearbylocation.contract.GooglePlacesActivityContract;
-import com.nearbylocation.databinding.ActivityGooglePlacesBinding;
 import com.nearbylocation.presenter.GooglePlacesActivityPresenter;
 import com.nearbylocation.repository.Repository;
+import com.nearbylocation.repository.model.foursquare.Venue;
 import com.nearbylocation.util.NetworkUtil;
+import java.util.List;
 import javax.inject.Inject;
 
 public class GooglePlacesActivity extends AppCompatActivity implements GooglePlacesActivityContract.View {
@@ -21,26 +23,36 @@ public class GooglePlacesActivity extends AppCompatActivity implements GooglePla
     Repository repository;
     GooglePlacesActivityPresenter presenter;
 
+    private RecyclerView recyclerView;
+    List<Venue> items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_google_places);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_google_places);
+        setSupportActionBar(toolbar);
+
         ((App) getApplication()).getAppComponent().inject(this);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_google_places);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         GooglePlacesActivityContract.View googlePlacesActivityView = this;
         presenter = new GooglePlacesActivityPresenter(googlePlacesActivityView, repository);
-        ActivityGooglePlacesBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_google_places);
-        binding.setPresenter(presenter);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_google_places);
-        setSupportActionBar(toolbar);
         presenter.loadLocation();
     }
 
 
     @Override
-    public void displayLocation(String response) {
-        //todo
+    public void displayLocation(List<Venue> venues) {
         findViewById(R.id.progress_bar_google_places).setVisibility(View.GONE);
-        Toast.makeText(this, "Successful Response", Toast.LENGTH_SHORT).show();
+        items = venues;
+        RecyclerView.Adapter mAdapter = new GooglePlacesAdapter(items);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -48,8 +60,7 @@ public class GooglePlacesActivity extends AppCompatActivity implements GooglePla
         NetworkUtil.internetNotAvailableToast();
     }
 
-
-    //______________________________________________________________________________________________ LIFECYLCE
+    //______________________________________________________________________________________________ LIFECYCLE
     @Override
     protected void onDestroy() {
         super.onDestroy();

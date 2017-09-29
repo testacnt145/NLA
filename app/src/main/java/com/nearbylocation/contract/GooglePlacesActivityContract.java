@@ -1,6 +1,9 @@
 package com.nearbylocation.contract;
 
 
+import com.nearbylocation.repository.model.foursquare.Venue;
+import java.util.List;
+
 public interface GooglePlacesActivityContract {
 
     interface Presenter {
@@ -9,7 +12,7 @@ public interface GooglePlacesActivityContract {
     }
 
     interface View {
-        void displayLocation(String response);
+        void displayLocation(List<Venue> venues);
         void displayInternetError();
     }
 

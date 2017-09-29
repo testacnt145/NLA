@@ -3,6 +3,7 @@ package com.nearbylocation.presenter;
 import com.nearbylocation.contract.GooglePlacesActivityContract;
 import com.nearbylocation.repository.Repository;
 import com.nearbylocation.repository.callbacks.GeneralCallback2;
+import com.nearbylocation.repository.model.foursquare.FourSquareNearbyPlaces;
 import com.nearbylocation.util.LogUtil;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,14 +20,14 @@ public class GooglePlacesActivityPresenter implements GooglePlacesActivityContra
 
     @Override
     public void loadLocation() {
-        repository.getLocationFromGooglePlaces(new GeneralCallback2<String>() {
+        repository.getLocationFromGooglePlaces(new GeneralCallback2<FourSquareNearbyPlaces>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<FourSquareNearbyPlaces> call, Response<FourSquareNearbyPlaces> response) {
                 if(response.isSuccessful())
-                    view.displayLocation(response.toString());
+                    view.displayLocation(response.body().getResponse().getVenues());
             }
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<FourSquareNearbyPlaces> call, Throwable t) {
                 if(call.isCanceled())
                     LogUtil.e(getClass().getSimpleName(), "Call canceled");
                 else
